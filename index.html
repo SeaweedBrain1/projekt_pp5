@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LoL Team Builder</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/mobile-drag-drop@2.3.0-rc.2/default.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <nav class="main-nav">
+      <div class="nav-brand">League of Legends Manager</div>
+      <div class="nav-links">
+        <button id="nav-list" class="nav-btn active">Lista Bohaterów</button>
+        <button id="nav-team" class="nav-btn">
+          Moja Drużyna <span id="nav-team-count">(0)</span>
+        </button>
+      </div>
+    </nav>
+
+    <main>
+      <section id="view-champions">
+        <header>
+          <h1>Wybierz Bohaterów</h1>
+          <p style="text-align: center; color: #888; margin-bottom: 20px">
+            Kliknij <strong>LPM</strong>, aby zobaczyć statystyki.<br />
+            Kliknij <strong>PPM</strong>, aby dodać/usunąć z drużyny.
+          </p>
+
+          <div class="controls-bar">
+            <div class="control-group">
+              <label for="role-select">Rola:</label>
+              <select id="role-select">
+                <option value="all">Wszyscy</option>
+                <option value="Fighter">Wojownik</option>
+                <option value="Tank">Czołg</option>
+                <option value="Mage">Mag</option>
+                <option value="Assassin">Zabójca</option>
+                <option value="Support">Wsparcie</option>
+                <option value="Marksman">Strzelec</option>
+              </select>
+            </div>
+
+            <div class="control-group">
+              <label for="sort-select">Sortuj wg:</label>
+              <select id="sort-select">
+                <option value="name">Nazwa (A-Z)</option>
+                <option value="hp">Zdrowie (HP)</option>
+                <option value="mp">Mana (MP)</option>
+                <option value="movespeed">Prędkość ruchu</option>
+                <option value="attackdamage">Obrażenia (AD)</option>
+                <option value="attackspeed">Prędkość ataku</option>
+                <option value="attackrange">Zasięg ataku</option>
+                <option value="crit">Szansa na krytyka</option>
+                <option value="armor">Pancerz</option>
+                <option value="spellblock">Odporność na magię</option>
+                <option value="hpregen">Regeneracja HP</option>
+              </select>
+
+              <button id="sort-order-btn" title="Zmień kierunek">☰▲</button>
+            </div>
+
+            <div class="control-group">
+              <button id="btn-reset-list" class="btn-danger">
+                Wyczyść Drużynę
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <div id="champions-list" class="grid-container">Loading data...</div>
+      </section>
+
+      <section id="view-team" class="hidden">
+        <div class="team-header">
+          <h2>Twoja Kompozycja</h2>
+          <button
+            id="btn-reset-team"
+            class="btn-danger"
+            style="margin-bottom: 15px"
+          >
+            Zresetuj Wszystko
+          </button>
+          <div id="team-summary" class="team-summary">Sumy statystyk...</div>
+        </div>
+
+        <div class="roles-container">
+          <div class="role-slot" data-slot="top">
+            <div class="role-name">Górna Aleja</div>
+            <div class="slot-content">Przeciągnij tutaj</div>
+          </div>
+          <div class="role-slot" data-slot="jungle">
+            <div class="role-name">Dżungla</div>
+            <div class="slot-content">Przeciągnij tutaj</div>
+          </div>
+          <div class="role-slot" data-slot="mid">
+            <div class="role-name">Środek</div>
+            <div class="slot-content">Przeciągnij tutaj</div>
+          </div>
+          <div class="role-slot" data-slot="bottom">
+            <div class="role-name">Dolna (Carry)</div>
+            <div class="slot-content">Przeciągnij tutaj</div>
+          </div>
+          <div class="role-slot" data-slot="support">
+            <div class="role-name">Wsparcie</div>
+            <div class="slot-content">Przeciągnij tutaj</div>
+          </div>
+        </div>
+
+        <div class="bench-section">
+          <h3 class="bench-header">Dostępni Bohaterowie (Ławka)</h3>
+          <div id="bench-container" class="bench-container"></div>
+          <p style="text-align: center; color: #555; margin-top: 10px">
+            Kliknij w mały kwadrat na karcie, aby kupić przedmiot.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <div id="item-shop-modal" class="modal hidden">
+      <div class="modal-content">
+        <div class="modal-header-row">
+          <h2>Wybierz Przedmiot</h2>
+          <button id="close-shop" class="btn-danger">X</button>
+        </div>
+        <div id="item-shop-grid" class="item-grid"></div>
+      </div>
+    </div>
+
+    <div id="global-tooltip" class="item-tooltip hidden">
+      <div id="tooltip-header" class="tooltip-header">
+        <img id="tooltip-img" src="" alt="" />
+        <span id="tooltip-title"></span>
+        <span id="tooltip-gold" class="gold-cost"></span>
+      </div>
+      <div id="tooltip-desc" class="tooltip-desc"></div>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mobile-drag-drop@2.3.0-rc.2/index.min.js"></script>
+
+    <script>
+      MobileDragDrop.polyfill({
+        dragImageTranslateOverride:
+          MobileDragDrop.scrollBehaviourDragImageTranslateOverride,
+      });
+      document.addEventListener('touchmove', function (e) {}, {
+        passive: false,
+      });
+    </script>
+
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>
