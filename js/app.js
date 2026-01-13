@@ -3,7 +3,7 @@ import { store } from './lib/store.js';
 import './components/champion-card.js';
 
 const CHAMP_URL = './data/champions.json';
-const ITEM_URL = './data/item.json'; // Upewnij się, że masz ten plik w folderze data!
+const ITEM_URL = './data/item.json';
 
 const app = {
     editingChampionId: null,
@@ -15,35 +15,23 @@ const app = {
         store.subscribe('championsLoaded', app.renderList);
         store.subscribe('stateChange', app.renderList);
         store.subscribe('teamChange', app.updateTeamView);
-
-        // Routing
         const btnList = document.getElementById('nav-list');
         const btnTeam = document.getElementById('nav-team');
         if (btnList)
             btnList.addEventListener('click', () => app.changeView('list'));
         if (btnTeam)
             btnTeam.addEventListener('click', () => app.changeView('team'));
-
-        // Reset
         const btnResetList = document.getElementById('btn-reset-list');
         if (btnResetList)
             btnResetList.addEventListener('click', app.handleReset);
         const btnResetTeam = document.getElementById('btn-reset-team');
         if (btnResetTeam)
             btnResetTeam.addEventListener('click', app.handleReset);
-
-        // Odświeżenie na starcie
         app.updateTeamView(store.state);
-
-        // Konfiguracja Drag & Drop
         app.initDragAndDrop();
-
-        // Konfiguracja Sklepu
         app.initShop();
 
         app.initTooltip();
-
-        // Pobieranie danych
         try {
             console.log('Pobieranie danych...');
             const [champData, itemData] = await Promise.all([
@@ -53,7 +41,7 @@ const app = {
 
             store.setChampions(champData.data);
             store.setItems(itemData.data);
-            app.renderShop(itemData.data); // Generujemy sklep raz
+            app.renderShop(itemData.data);
         } catch (error) {
             console.error(error);
             document.getElementById('champions-list').innerText =
